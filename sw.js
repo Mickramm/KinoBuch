@@ -1,6 +1,6 @@
 // Kinobuch Service Worker – macht die App offline nutzbar.
 // Bei einem Update der App diese Versionsnummer erhöhen:
-const CACHE='kinobuch-1.1';
+const CACHE='kinobuch-1.2';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 const fresh=u=>new Request(u,{cache:'reload'});
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(async c=>{
