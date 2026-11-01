@@ -1,0 +1,44 @@
+name: Film-Datenbank aktualisieren
+
+# Läuft automatisch am 3. jedes Monats um 04:17 Uhr (UTC) und lässt sich
+# unter "Actions" auch jederzeit von Hand starten ("Run workflow").
+# Monatlich statt vierteljährlich, weil GitHub Zeitpläne in Repositories
+# ohne Aktivität nach 60 Tagen pausiert.
+on:
+  schedule:
+    - cron: '17 4 3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Film-Datenbank aus IMDb-Daten bauen
+        # Anzahl hier anpassen: --films 10000 --series 2500 --cast 6
+        run: python3 tools/build_filmdb.py --out filmdb.json --data /tmp/imdb-data --films 10000 --series 2500 --cast 6
+
+      - name: Änderungen speichern
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add filmdb.json
+          if git diff --cached --quiet; then echo "Keine Änderungen."; exit 0; fi
+          git commit -m "Film-Datenbank aktualisiert ($(date +%Y-%m-%d))"
+          git push
+
+      - name: Website neu veröffentlichen
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
