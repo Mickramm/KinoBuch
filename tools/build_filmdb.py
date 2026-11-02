@@ -7,7 +7,7 @@ Die Daten dürfen nur privat und nicht-kommerziell genutzt werden.
 Nur Python-Standardbibliothek. Aufruf:
     python3 tools/build_filmdb.py --out filmdb.json
 Optionen:
-    --films 30000     Anzahl Filme inkl. TV-Filme (die mit den meisten IMDb-Stimmen)
+    --films 50000     Anzahl Filme inkl. TV-Filme (die mit den meisten IMDb-Stimmen)
     --series 10000    Anzahl Serien/Miniserien
     --cast 6          Hauptdarsteller pro Titel
     --data imdb-data  Ordner für die heruntergeladenen Rohdaten
@@ -188,7 +188,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="filmdb.json")
     ap.add_argument("--data", default="imdb-data")
-    ap.add_argument("--films", type=int, default=30000)
+    ap.add_argument("--films", type=int, default=50000)
     ap.add_argument("--series", type=int, default=10000)
     ap.add_argument("--cast", type=int, default=6)
     ap.add_argument("--no-download", action="store_true", help="vorhandene Dateien im Datenordner verwenden")
