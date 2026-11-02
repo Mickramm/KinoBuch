@@ -7,8 +7,8 @@ Die Daten dürfen nur privat und nicht-kommerziell genutzt werden.
 Nur Python-Standardbibliothek. Aufruf:
     python3 tools/build_filmdb.py --out filmdb.json
 Optionen:
-    --films 10000     Anzahl Filme (die mit den meisten IMDb-Stimmen)
-    --series 2500     Anzahl Serien/Miniserien
+    --films 30000     Anzahl Filme inkl. TV-Filme (die mit den meisten IMDb-Stimmen)
+    --series 10000    Anzahl Serien/Miniserien
     --cast 6          Hauptdarsteller pro Titel
     --data imdb-data  Ordner für die heruntergeladenen Rohdaten
 """
@@ -17,7 +17,7 @@ import argparse, gzip, json, os, sys, time, urllib.request, datetime
 BASE = "https://datasets.imdbws.com/"
 FILES = ["title.ratings", "title.basics", "title.crew", "title.episode",
          "title.akas", "title.principals", "name.basics"]
-FILM_TYPES = {"movie"}
+FILM_TYPES = {"movie", "tvMovie"}
 SERIES_TYPES = {"tvSeries", "tvMiniSeries"}
 CAST_CATS = {"actor", "actress", "self"}
 
@@ -188,8 +188,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="filmdb.json")
     ap.add_argument("--data", default="imdb-data")
-    ap.add_argument("--films", type=int, default=10000)
-    ap.add_argument("--series", type=int, default=2500)
+    ap.add_argument("--films", type=int, default=30000)
+    ap.add_argument("--series", type=int, default=10000)
     ap.add_argument("--cast", type=int, default=6)
     ap.add_argument("--no-download", action="store_true", help="vorhandene Dateien im Datenordner verwenden")
     a = ap.parse_args()

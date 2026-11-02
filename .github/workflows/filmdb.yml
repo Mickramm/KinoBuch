@@ -25,8 +25,8 @@ jobs:
           python-version: '3.12'
 
       - name: Film-Datenbank aus IMDb-Daten bauen
-        # Anzahl hier anpassen: --films 10000 --series 2500 --cast 6
-        run: python3 tools/build_filmdb.py --out filmdb.json --data /tmp/imdb-data --films 10000 --series 2500 --cast 6
+        # Anzahl hier anpassen: --films 30000 --series 10000 --cast 6
+        run: python3 tools/build_filmdb.py --out filmdb.json --data /tmp/imdb-data --films 30000 --series 10000 --cast 6
 
       - name: Änderungen speichern
         run: |
